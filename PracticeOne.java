@@ -43,3 +43,24 @@ public int getIntersectionNumber(int[] nums1, int[] nums2) {
 	}
 	return result;
 }
+
+// all positive integers
+public int subArraySum(int[] nums, int k) {
+	if(nums == null || nums.length == 0) {
+		return 0;
+	}
+	int result = 0;
+	int start = 0;
+	int sum = 0;
+	for(int i = 0; i < nums.length; i++) {
+		sum += nums[i];
+		while(sum > k && start < i) {
+			sum-=nums[start++];
+		}
+		if(sum == k) {
+			result++;
+		}
+	}	
+	return result;
+}
+
