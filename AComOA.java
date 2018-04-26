@@ -125,7 +125,7 @@ public int buyFruit(List<List<String>> codeList, List<String> shoppingCart) {
 	for(int i = 0; i + list.size() <= shoppingCart.size(); i++) {
 		for(int j = 0; j < list.size(); j++) {
 			if(list.get(j).equals("anything")) {
-				if(i == list.size() - 1) {
+				if(j == list.size() - 1) {
 					return 1;
 				}
 				continue;
@@ -453,9 +453,13 @@ public List<String> mostCommonWord(String paragraph, List<String> banned) {
  		return result;
  	}
  	String[] words = paragraph.trim().toLowerCase().replaceAll("\\p{P}", " ").split("\\s+");
+ 	Set<String> excludeList = new HashSet(banned);
  	Map<String, Integer> map = new HashMap<String, Integer>();
  	int maxCount = 0;
  	for(String word : words) {
+ 		if(excludeList.contains(word) || !isValidWord(word)) {
+ 			continue;
+ 		}
  		if(!map.containsKey(word)) {
  			map.put(word, 0);
  		}
@@ -471,6 +475,16 @@ public List<String> mostCommonWord(String paragraph, List<String> banned) {
  	}
  	return result;
 }
+
+private boolean isValidWord(String str) {
+	for(char current : str.toCharArray()) {
+		if(!Character.isDigit(current)) {
+			return false;
+		}
+	}
+	return true;
+}
+
 
 public List<String> reorderLogFile(int logFileSize, List<String> lines) {
 	if(logFileSize == 0 || lines == null || lines.size() == 0) {
